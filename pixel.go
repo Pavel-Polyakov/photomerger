@@ -10,8 +10,7 @@ type pixel interface {
 }
 
 type pixelAverage struct {
-	R, G, B, A uint32
-	N          uint32
+	r, g, b, a, n uint32
 }
 
 func newPixelAverage() *pixelAverage {
@@ -19,27 +18,27 @@ func newPixelAverage() *pixelAverage {
 }
 
 func (p *pixelAverage) Update(c color.Color) {
-	p.N += 1
+	p.n += 1
 
 	r, g, b, a := c.RGBA()
 
-	p.R = p.R + r
-	p.G = p.G + g
-	p.B = p.B + b
-	p.A = p.A + a
+	p.r = p.r + r
+	p.g = p.g + g
+	p.b = p.b + b
+	p.a = p.a + a
 }
 
 func (p *pixelAverage) Color() color.Color {
 	return &color.RGBA64{
-		R: uint16(p.R / p.N),
-		G: uint16(p.G / p.N),
-		B: uint16(p.B / p.N),
-		A: uint16(p.A / p.N),
+		R: uint16(p.r / p.n),
+		G: uint16(p.g / p.n),
+		B: uint16(p.b / p.n),
+		A: uint16(p.a / p.n),
 	}
 }
 
 type pixelMax struct {
-	R, G, B, A uint32
+	r, g, b, a uint32
 }
 
 func newPixelMax() *pixelMax {
@@ -49,25 +48,25 @@ func newPixelMax() *pixelMax {
 func (p *pixelMax) Update(c color.Color) {
 	r, g, b, a := c.RGBA()
 
-	if r > p.R {
-		p.R = r
+	if r > p.r {
+		p.r = r
 	}
-	if g > p.G {
-		p.G = g
+	if g > p.g {
+		p.g = g
 	}
-	if b > p.B {
-		p.B = b
+	if b > p.b {
+		p.b = b
 	}
-	if a > p.A {
-		p.A = a
+	if a > p.a {
+		p.a = a
 	}
 }
 
 func (p *pixelMax) Color() color.Color {
 	return &color.RGBA64{
-		R: uint16(p.R),
-		G: uint16(p.G),
-		B: uint16(p.B),
-		A: uint16(p.A),
+		R: uint16(p.r),
+		G: uint16(p.g),
+		B: uint16(p.b),
+		A: uint16(p.a),
 	}
 }

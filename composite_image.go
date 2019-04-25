@@ -19,9 +19,6 @@ func newCmpImage() *cmpImg {
 }
 
 func (m *cmpImg) init(xMax, yMax int) {
-	m.Lock()
-	defer m.Unlock()
-
 	pixels := make([][]pixel, yMax)
 	for y := 0; y < yMax; y++ {
 		pixels[y] = make([]pixel, xMax)
@@ -36,9 +33,6 @@ func (m *cmpImg) init(xMax, yMax int) {
 }
 
 func (m *cmpImg) isZero() bool {
-	m.Lock()
-	defer m.Unlock()
-
 	if m.xMax == 0 && m.yMax == 0 && m.pixels == nil {
 		return true
 	}
@@ -50,9 +44,11 @@ func (m *cmpImg) AddImage(img image.Image) {
 	yMax := img.Bounds().Max.Y
 	xMax := img.Bounds().Max.X
 
+	m.Lock()
 	if m.isZero() {
 		m.init(xMax, yMax)
 	}
+	m.Unlock()
 
 	for y := 0; y < yMax; y++ {
 		for x := 0; x < xMax; x++ {
