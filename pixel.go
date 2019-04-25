@@ -2,7 +2,6 @@ package main
 
 import (
 	"image/color"
-	"sync"
 )
 
 type pixel interface {
@@ -13,8 +12,6 @@ type pixel interface {
 type pixelAverage struct {
 	R, G, B, A uint32
 	N          uint32
-
-	sync.Mutex
 }
 
 func newPixelAverage() *pixelAverage {
@@ -22,10 +19,8 @@ func newPixelAverage() *pixelAverage {
 }
 
 func (p *pixelAverage) Update(c color.Color) {
-	//p.Lock()
-	//defer p.Unlock()
-
 	p.N += 1
+
 	r, g, b, a := c.RGBA()
 
 	p.R = p.R + r
@@ -45,7 +40,6 @@ func (p *pixelAverage) Color() color.Color {
 
 type pixelMax struct {
 	R, G, B, A uint32
-	sync.Mutex
 }
 
 func newPixelMax() *pixelMax {

@@ -89,7 +89,6 @@ func main() {
 				processed++
 				percent := (float64(processed) / float64(filesLimit)) * 100
 				fmt.Printf("%s: [%d/%d]: %f percent \n", time.Now(), processed, filesLimit, percent)
-
 				<-tokens
 			}()
 
