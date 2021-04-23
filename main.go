@@ -57,6 +57,8 @@ func main() {
 		} else {
 			filesLimit = *maxFiles
 		}
+	} else {
+		filesLimit = len(files)
 	}
 
 	var wg sync.WaitGroup
@@ -108,7 +110,7 @@ func main() {
 	wg.Wait()
 
 	firstImgName := cleanJPG(files[0].Name())
-	lastImgName := cleanJPG(files[filesLimit].Name())
+	lastImgName := cleanJPG(files[filesLimit - 1].Name())
 	finalImageName := strings.ToUpper(firstImgName+"-"+lastImgName) + ".jpg"
 
 	fmt.Printf("%s: [final]: saving %s\n", time.Now(), finalImageName)
